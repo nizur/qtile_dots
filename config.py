@@ -38,11 +38,11 @@ def autostart():
 async def move_spotify(client):
     await asyncio.sleep(0.01)
     if client.name == 'Spotify':
-        client.togroup('')
+        client.togroup('music')
     elif client.name == 'Discord':
-        client.togroup('')
+        client.togroup("chat")
     elif client.name == 'Logseq':
-        client.togroup('﮼')
+        client.togroup('misc')
 
 
 widget_defaults = dict(Theme.widget)

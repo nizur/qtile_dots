@@ -9,36 +9,44 @@ from themes.dracula import Theme
 ### GROUPS ###
 
 group_configs = (
-    ("", {
+    ("web", {
+        "label": "",
         "matches": [Match(wm_class=["Firefox"])],
         "spawn": ["firefox"],
     }),
-    ("", {
+    ("tty", {
+        "label": "",
         "layout": layouts[2].name,
         "matches": [Match(wm_class=["Alacritty"])],
         "spawn": ["alacritty"],
     }),
-    ("", {
+    ("dev", {
+        "label": "",
         "layout": layouts[1].name,
         "matches": [Match(wm_class=["Code"])],
         "spawn": ["code"],
     }),
-    ("", {
+    ("mail", {
+        "label": "",
         "layout": layouts[1].name,
     }),
-    ("", {
+    ("chat", {
+        "label": "",
         "layout": layouts[1].name,
         "matches": [Match(wm_class=["Discord"])],  # FIXME
     }),
-    ("", {
+    ("music", {
+        "label": "",
         "layout": layouts[1].name,
         "matches": [Match(wm_class=["Spotify"])],  # FIXME
     }),
-    ("", {
+    ("media", {
+        "label": "",
         "layout": layouts[1].name,
         "matches": [Match(wm_class=["Gimp-2.10"])],
     }),
-    ("﮼", {
+    ("misc", {
+        "label": "﮼",
         "layout": layouts[2].name,
     }),
 )
