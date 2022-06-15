@@ -4,6 +4,7 @@
 ###
 
 # TODO: Integrate dunst?
+# TODO: Toggle screensaver
 
 import asyncio
 import os

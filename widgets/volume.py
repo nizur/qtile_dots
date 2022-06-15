@@ -1,7 +1,5 @@
 from libqtile import widget
 
-#from ..themes.dracula import Theme
-
 
 class MyPulseVolume(widget.PulseVolume):
     def _update_drawer(self):

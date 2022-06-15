@@ -86,8 +86,13 @@ top_bar = bar.Bar([
     MyPulseVolume(
         background=Theme.color["green"],
         foreground=Theme.color["black"],
+        get_volume_command=Commands.audio_get_volume,
         limit_max_volume=True,
-        volume_app="pavucontrol",
+        mute_command=Commands.audio_mute,
+        step=4,
+        volume_app="pamixer",
+        volume_down_command=Commands.audio_volume_down,
+        volume_up_command=Commands.audio_volume_up,
     ),
     widget.Sep(
         foreground=Theme.color["black"],

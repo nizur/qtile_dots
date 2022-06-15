@@ -5,12 +5,13 @@ AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 
 
 class Commands(object):
-    audio_mute = "pactl set-sink-mute 0 toggle"
+    audio_get_volume = "pamixer --get-volume-human"
+    audio_mute = "pamixer -m"
     audio_play_pause = ""
     audio_track_next = ""
     audio_track_prev = ""
-    audio_volume_down = "sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%'"
-    audio_volume_up = "sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%'"
+    audio_volume_down = "pamixer -d 2"
+    audio_volume_up = "pamixer -i 2"
     autostart = HOME + "/.config/qtile/scripts/autostart.sh"
     browser = "firefox"
     #powermenu = "rofi -show power-menu -modi power-menu:rofi-power-menu"

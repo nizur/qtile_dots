@@ -25,6 +25,9 @@ keys = [
     ], mode="Open"),
 
     KeyChord([MOD], "a", [
+        Key([], "Print",
+            lazy.spawn(Commands.audio_mute),
+            desc="Mute Track"),
         Key([], "Up",
             lazy.spawn(Commands.audio_volume_up),
             desc="Volume Up"),
