@@ -3,6 +3,7 @@ import os
 from libqtile.utils import guess_terminal
 
 HOME = os.path.expanduser("~")
+AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 
 
 class Commands(object):
@@ -13,6 +14,7 @@ class Commands(object):
     code = "code"
     discord = "discord"
     files = "nautilus"
+    gnome_session = "dbus-send --session --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.RegisterClient string:qtile string:"
     menu = HOME + "/.config/rofi/launchers/ribbon/launcher.sh"
     redshift = "redshift"
     screenshot = "scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $" + \

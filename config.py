@@ -3,6 +3,8 @@
 # - Chris Ruzin
 ###
 
+import asyncio
+import os
 import subprocess
 
 from typing import List  # noqa: F401
@@ -16,6 +18,31 @@ from layouts import floating_layout, layouts
 from mouse import mouse
 from screens import screens
 from themes.dracula import Theme
+
+
+@hook.subscribe.startup
+def dbus_register():
+    id = os.environ.get('DESKTOP_AUTOSTART_ID')
+    if not id:
+        return
+    subprocess.Popen([Commands.gnome_session + id])
+
+
+@hook.subscribe.startup
+def autostart():
+    # subprocess.call([Commands.redshift])
+    subprocess.Popen([Commands.autostart])
+
+
+@hook.subscribe.client_new
+async def move_spotify(client):
+    await asyncio.sleep(0.01)
+    if client.name == 'Spotify':
+        client.togroup('')
+    elif client.name == 'Discord':
+        client.togroup('')
+    elif client.name == 'Logseq':
+        client.togroup('﮼')
 
 
 widget_defaults = dict(Theme.widget)
@@ -32,14 +59,6 @@ dgroups_app_rules = []  # type: List
 focus_on_window_activation = "smart"
 follow_mouse_focus = True
 reconfigure_screens = True
-
-### AUTOSTART ###
-
-
-@hook.subscribe.startup
-def autostart():
-    # subprocess.call([Commands.redshift])
-    subprocess.Popen([Commands.autostart])
 
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this

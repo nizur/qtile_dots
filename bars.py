@@ -57,6 +57,7 @@ top_bar = bar.Bar([
     ),
     widget.Chord(
         chords_colors={
+            "Gnome": (Theme.color["green"], Theme.color["black"]),
             "Grow": (Theme.color["blue"], Theme.color["black"]),
             "Migrate": (Theme.color["cyan"], Theme.color["black"]),
             "Open": (Theme.color["yellow"], Theme.color["black"]),
