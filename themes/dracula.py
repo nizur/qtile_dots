@@ -26,7 +26,7 @@ class Theme(object):
     bar = {
         "background": color["black"],
         "foreground": color["white"],
-        "size": 30,
+        "size": 32,
     }
 
     layout = {

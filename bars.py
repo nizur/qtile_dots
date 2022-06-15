@@ -83,9 +83,15 @@ top_bar = bar.Bar([
         fmt=" {}",
         foreground=Theme.color["bright_magenta"],
     ),
+    widget.Mpris2(
+        name="spotify",
+        objname="org.mpris.MediaPlayer2.spotify",
+        persist=True,
+        scroll_chars="40",
+        stop_pause_text="Paused...",
+    ),
     MyPulseVolume(
-        background=Theme.color["green"],
-        foreground=Theme.color["black"],
+        foreground=Theme.color["green"],
         get_volume_command=Commands.audio_get_volume,
         limit_max_volume=True,
         mute_command=Commands.audio_mute,
@@ -99,42 +105,28 @@ top_bar = bar.Bar([
     ),
     OpenWeatherMap(
         api_key="b8c0a2258d0134fb50533560dfb89a73",
-        background=Theme.color["blue"],
-        foreground=Theme.color["black"],
+        foreground=Theme.color["cyan"],
         format="{icon} {temp:.0f}{temp_units}",
         latitude=30.2,
         longitude=-97.7,
         units="imperial",
     ),
-    widget.Sep(
-        foreground=Theme.color["black"],
-    ),
     widget.Clock(
-        background=Theme.color["yellow"],
-        foreground=Theme.color["black"],
+        foreground=Theme.color["yellow"],
         format=" %a %B %d",
     ),
-    widget.Sep(
-        foreground=Theme.color["black"],
-    ),
     widget.Clock(
-        background=Theme.color["cyan"],
-        foreground=Theme.color["black"],
+        foreground=Theme.color["magenta"],
         format=" %I:%M %p",
     ),
-    widget.Sep(
-        foreground=Theme.color["black"],
-    ),
     widget.Wallpaper(
-        background=Theme.color["bright_magenta"],
         directory=HOME + "/Pictures/Wallpapers",
         fontsize=16,
-        foreground=Theme.color["black"],
+        foreground=Theme.color["white"],
         label="",
         random=True,
     ),
     widget.Spacer(
-        background=Theme.color["bright_magenta"],
         length=2,
     ),
 ], **Theme.bar)
