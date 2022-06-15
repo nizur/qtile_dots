@@ -1,0 +1,404 @@
+###
+# Custom Qtile Config
+# - Chris Ruzin
+###
+
+# TODO: Screenshot
+# TODO: Spotify/media control
+# TODO: Learn more about chords
+# TODO: Look into custom systray options
+
+import os
+import subprocess
+
+from typing import List  # noqa: F401
+
+from libqtile import bar, hook, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
+from libqtile.utils import guess_terminal
+
+from widgets.owm import OpenWeatherMap
+
+ALT = "mod1"
+MOD = "mod4"
+CTL = "control"
+SHIFT = "shift"
+HOME = os.path.expanduser("~")
+
+### CLASSES ###
+
+
+class Commands(object):
+    autostart = HOME + "/.config/qtile/scripts/autostart.sh"
+    menu = HOME + "/.config/rofi/launchers/ribbon/launcher.sh"
+    #powermenu = "rofi -show power-menu -modi power-menu:rofi-power-menu"
+    calc = "rofi -modi calc -show calc -no-show-match -no-bold"
+    browser = "firefox"
+    files = "nautilus"
+    redshift = "redshift"
+    spotify_next = HOME + "/.config/qtile/scripts/spotify_next.sh"
+    spotify_prev = HOME + "/.config/qtile/scripts/spotify_prev.sh"
+    terminal = guess_terminal()
+    zypper_dup = terminal + " -e sudo zypper dup"
+
+
+class Theme(object):
+    color = {
+        "base": "#44475a",
+
+        # Normal
+        "black": "#21222C",
+        "red": "#FF5555",
+        "green": "#50FA7B",
+        "yellow": "#F1FA8C",
+        "blue": "#BD93F9",
+        "magenta": "#FF79C6",
+        "cyan": "#8BE9FD",
+        "white": "#F8F8F2",
+
+        # Bright
+        "bright_black": "#6272A4",
+        "bright_red": "#FF6E6E",
+        "bright_green": "#69FF94",
+        "bright_yellow": "#FFFFA5",
+        "bright_blue": "#D6ACFF",
+        "bright_magenta": "#FF92DF",
+        "bright_cyan": "#A4FFFF",
+        "bright_white": "#FFFFFF",
+    }
+
+    bar = {
+        "background": color["black"],
+        "foreground": color["white"],
+        "size": 30,
+    }
+
+    layout = {
+        "Base": {
+            "border_focus": color["bright_magenta"],
+            "border_normal": color["black"],
+            "border_width": 3,
+        },
+        "MonadTall": {
+            "border_focus_stack": color["bright_magenta"],
+            "border_normal_stack": color["black"],
+        },
+    }
+
+    widget = {
+        "background": bar["background"],
+        "font": "iM WritingQuattroS Nerd Font",
+        "fontsize": 13,
+        "foreground": bar["foreground"],
+        "padding": 10,
+    }
+
+### FUNCTIONS ###
+
+
+def to_urgent(qtile):
+    cg = qtile.currentGroup
+    for group in qtile.groupMap.values():
+        if group == cg:
+            continue
+        if len([w for w in group.windows if w.urgent]) > 0:
+            qtile.currentScreen.setGroup(group)
+            return
+
+
+### KEYS ###
+
+keys = [
+    # Custom
+    Key([MOD], "d", lazy.spawn(Commands.menu), desc="Run launcher"),
+    Key([MOD], "c", lazy.spawn(Commands.calc), desc="Run calculator"),
+    Key([MOD], "b", lazy.spawn(Commands.browser), desc="Run browser"),
+    Key([MOD], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([MOD], "r", lazy.spawncmd(),
+        desc="Spawn a command using a prompt widget"),
+    Key([SHIFT], "F12", lazy.function(to_urgent), desc="Switch to urgent group"),
+    #Key([MOD], "Escape", lazy.spawn(Commands.powermenu), desc="Run powermenu"),
+
+    # Switch between windows
+    Key([MOD], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([MOD], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([MOD], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([MOD], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([MOD], "space", lazy.layout.next(),
+        desc="Move window focus to other window"),
+    Key([MOD, SHIFT], "space", lazy.layout.flip(), desc="Flip the layout"),
+
+    # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key([MOD, SHIFT], "h", lazy.layout.shuffle_left(),
+        desc="Move window to the left"),
+    Key([MOD, SHIFT], "l", lazy.layout.shuffle_right(),
+        desc="Move window to the right"),
+    Key([MOD, SHIFT], "j", lazy.layout.shuffle_down(),
+        desc="Move window down"),
+    Key([MOD, SHIFT], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
+    # Grow windows. If current window is on the edge of screen and direction
+    # will be to screen edge - window would shrink.
+    Key([MOD, CTL], "h", lazy.layout.grow_left(),
+        desc="Grow window to the left"),
+    Key([MOD, CTL], "l", lazy.layout.grow_right(),
+        desc="Grow window to the right"),
+    Key([MOD, CTL], "j", lazy.layout.grow_down(),
+        desc="Grow window down"),
+    Key([MOD, CTL], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([MOD], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+    # Toggle between split and unsplit sides of stack.
+    # Split = all windows displayed
+    # Unsplit = 1 window displayed, like Max layout, but still with
+    # multiple stack panes
+    Key([MOD, SHIFT], "Return", lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack"),
+    Key([MOD], "Return", lazy.spawn(Commands.terminal), desc="Launch terminal"),
+
+    # Toggle between different layouts as defined below
+    Key([MOD], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+
+    # Restart/shutdown
+    Key([MOD, CTL], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([MOD, CTL], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+]
+
+### MOUSE ###
+
+mouse = [
+    Drag([MOD], "Button0", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([MOD], "Button2", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([MOD], "Button1", lazy.window.bring_to_front())
+]
+
+
+### LAYOUTS ###
+
+layouts = [
+    layout.MonadTall(
+        **Theme.layout["Base"],
+        **Theme.layout["MonadTall"],
+    ),
+    layout.Max(
+        **Theme.layout["Base"],
+    ),
+    layout.Tile(
+        **Theme.layout["Base"],
+    ),
+]
+
+### GROUPS ###
+
+group_configs = (
+    ("web", {
+        "matches": [Match(wm_class=["Firefox"])],
+        "spawn": ["firefox"],
+    }),
+    ("dev", {
+        "layout": layouts[1].name,
+        "matches": [Match(wm_class=["Code"])],
+        "spawn": ["code"],
+    }),
+    ("chat", {
+        "layout": layouts[1].name,
+    }),
+    ("media", {
+        "layout": layouts[1].name,
+        "matches": [Match(wm_class=["Spotify"])],  # FIXME
+    }),
+    ("gfx", {
+        "layout": layouts[1].name,
+        "matches": [Match(wm_class=["Gimp-2.10"])],
+    }),
+    ("misc", {
+        "layout": layouts[2].name,
+    }),
+)
+
+groups = []
+
+for i, (group, config) in enumerate(group_configs, 1):
+    groups.append(Group(group, **config))
+    keys.extend([
+        Key([MOD], str(i), lazy.group[group].toscreen(),
+            desc="Switch to group {}".format(group)),
+        Key([MOD, SHIFT], str(i), lazy.window.togroup(group, switch_group=True),
+            desc="Switch to & move focused window to group {}".format(group))
+    ])
+
+
+### BARS/SCREENS ###
+
+
+widget_defaults = dict(Theme.widget)
+extension_defaults = widget_defaults.copy()
+
+top_bar = bar.Bar([
+    widget.Spacer(
+        background=Theme.color["green"],
+        length=8,
+    ),
+    widget.TextBox(
+        background=Theme.color["green"],
+        # font="JetBrainsMono Nerd Font Regular",
+        fontsize="24",
+        foreground=Theme.color["black"],
+        padding=0,
+        text=" ",
+    ),
+    widget.CheckUpdates(
+        background=Theme.color["green"],
+        colour_have_updates=Theme.color["black"],
+        custom_command="zypper lu",
+        custom_command_modify=lambda x: x - 4,
+        display_format=" {updates}",
+        # mouse_callbacks={"Button1": zypper_dup},
+        padding=0,
+        update_interval=14400,
+    ),
+    widget.Spacer(
+        background=Theme.color["green"],
+        length=8,
+    ),
+    widget.CurrentLayoutIcon(
+        custom_icon_paths=[(HOME + "/.config/qtile/icons")],
+        foreground=Theme.color["blue"],
+        padding=4,
+        scale=0.4,
+    ),
+    widget.GroupBox(
+        active=Theme.color["bright_magenta"],
+        background=Theme.color["base"],
+        block_highlight_text_color=Theme.color["black"],
+        borderwidth=0,
+        disable_drag=True,
+        highlight_color=Theme.color["bright_magenta"],
+        highlight_method="block",
+        inactive=Theme.color["black"],
+        rounded=False,
+        this_current_screen_border=Theme.color["bright_magenta"],
+        urgent_alert_method="block",
+        urgent_border=Theme.color["bright_red"],
+        urgent_text=Theme.color["white"],
+    ),
+    widget.WindowName(
+        for_current_screen=True,
+        padding=10
+    ),
+    widget.Chord(
+        chords_colors={
+            "launch": (Theme.color["bright_red"], Theme.color["bright_white"]),
+        },
+        name_transform=lambda name: name.upper(),
+    ),
+    widget.Spacer(),
+    widget.Prompt(
+        bell_style="visual",
+        cursor_color=Theme.color["red"],
+        ignore_dups_history=True,
+        prompt=" ",
+        visual_bell_color=Theme.color["red"],
+    ),
+    widget.Clipboard(
+        blacklist=["1password", "1Password"],
+        fmt=" {}",
+        foreground=Theme.color["bright_magenta"],
+    ),
+    # widget.Net(
+    #     format="<span foreground=\"#69FF94\">{down}</span> ↓↑ <span foreground=\"#FF6E6E\">{up}</span>",
+    #     # interface="enp7s0",
+    # ),
+    OpenWeatherMap(
+        api_key="b8c0a2258d0134fb50533560dfb89a73",
+        background=Theme.color["blue"],
+        foreground=Theme.color["black"],
+        format="{icon} {temp:.0f}{temp_units}",
+        latitude=30.2,
+        longitude=-97.7,
+        units="imperial",
+    ),
+    widget.Sep(
+        foreground=Theme.color["black"],
+    ),
+    widget.Clock(
+        background=Theme.color["yellow"],
+        foreground=Theme.color["black"],
+        format=" %a %B %d",
+    ),
+    widget.Sep(
+        foreground=Theme.color["black"],
+    ),
+    widget.Clock(
+        background=Theme.color["cyan"],
+        foreground=Theme.color["black"],
+        format=" %I:%M %p",
+    ),
+    widget.Sep(
+        foreground=Theme.color["black"],
+    ),
+    widget.Wallpaper(
+        background=Theme.color["bright_magenta"],
+        directory=HOME + "/Pictures/Wallpapers",
+        fontsize=16,
+        foreground=Theme.color["black"],
+        label="",
+        random=True,
+    ),
+    widget.Spacer(
+        background=Theme.color["bright_magenta"],
+        length=2,
+    ),
+], **Theme.bar)
+
+screens = [
+    Screen(
+        top=top_bar,
+    ),
+]
+
+auto_fullscreen = True
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+bring_front_click = False
+cursor_warp = False
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: List
+focus_on_window_activation = "smart"
+follow_mouse_focus = True
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+])
+reconfigure_screens = True
+
+
+### AUTOSTART ###
+
+
+@ hook.subscribe.startup
+def autostart():
+    # subprocess.call([Commands.redshift])
+    subprocess.Popen([Commands.autostart])
+
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
+wmname = "LG3D"
