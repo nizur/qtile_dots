@@ -29,16 +29,17 @@ group_configs = (
     ("mail", {
         "label": "",
         "layout": layouts[1].name,
+        "matches": [Match(wm_class="Geary")],
     }),
     ("chat", {
         "label": "",
         "layout": layouts[1].name,
-        "matches": [Match(wm_class=["Discord"])],  # FIXME
+        "matches": [Match(wm_class=["Discord"])],
     }),
     ("music", {
         "label": "",
         "layout": layouts[1].name,
-        "matches": [Match(wm_class=["Spotify"])],  # FIXME
+        "matches": [Match(wm_class=["Spotify"])],
     }),
     ("media", {
         "label": "",

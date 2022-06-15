@@ -1,12 +1,16 @@
 import os
 
-from libqtile.utils import guess_terminal
-
 HOME = os.path.expanduser("~")
 AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 
 
 class Commands(object):
+    audio_mute = "pactl set-sink-mute 0 toggle"
+    audio_play_pause = ""
+    audio_track_next = ""
+    audio_track_prev = ""
+    audio_volume_down = "sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%'"
+    audio_volume_up = "sh -c 'pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%'"
     autostart = HOME + "/.config/qtile/scripts/autostart.sh"
     browser = "firefox"
     #powermenu = "rofi -show power-menu -modi power-menu:rofi-power-menu"
@@ -21,5 +25,5 @@ class Commands(object):
         HOME + "/Pictures/Screenshots'"
     spotify_next = HOME + "/.config/qtile/scripts/spotify_next.sh"
     spotify_prev = HOME + "/.config/qtile/scripts/spotify_prev.sh"
-    terminal = guess_terminal()
+    terminal = "alacritty"
     zypper_dup = terminal + " -e sudo zypper dup"

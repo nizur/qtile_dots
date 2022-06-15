@@ -1,8 +1,9 @@
 from libqtile import bar, widget
 
-from commands import HOME
+from commands import Commands, HOME
 from themes.dracula import Theme
 from widgets.owm import OpenWeatherMap
+from widgets.volume import MyPulseVolume
 
 # TODO: Spotify/media control
 # TODO: Look into custom systray options
@@ -26,7 +27,7 @@ top_bar = bar.Bar([
         custom_command="zypper lu",
         custom_command_modify=lambda x: x - 4,
         display_format=" {updates}",
-        # mouse_callbacks={"Button1": zypper_dup},
+        mouse_callbacks={"Button1": Commands.zypper_dup},
         padding=0,
         update_interval=14400,
     ),
@@ -57,6 +58,7 @@ top_bar = bar.Bar([
     ),
     widget.Chord(
         chords_colors={
+            "Audio": (Theme.color["magenta"], Theme.color["black"]),
             "Gnome": (Theme.color["green"], Theme.color["black"]),
             "Grow": (Theme.color["blue"], Theme.color["black"]),
             "Migrate": (Theme.color["cyan"], Theme.color["black"]),
@@ -81,10 +83,15 @@ top_bar = bar.Bar([
         fmt=" {}",
         foreground=Theme.color["bright_magenta"],
     ),
-    # widget.Net(
-    #     format="<span foreground=\"#69FF94\">{down}</span> ↓↑ <span foreground=\"#FF6E6E\">{up}</span>",
-    #     # interface="enp7s0",
-    # ),
+    MyPulseVolume(
+        background=Theme.color["green"],
+        foreground=Theme.color["black"],
+        limit_max_volume=True,
+        volume_app="pavucontrol",
+    ),
+    widget.Sep(
+        foreground=Theme.color["black"],
+    ),
     OpenWeatherMap(
         api_key="b8c0a2258d0134fb50533560dfb89a73",
         background=Theme.color["blue"],

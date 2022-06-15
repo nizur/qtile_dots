@@ -3,6 +3,8 @@
 # - Chris Ruzin
 ###
 
+# TODO: Integrate dunst?
+
 import asyncio
 import os
 import subprocess
