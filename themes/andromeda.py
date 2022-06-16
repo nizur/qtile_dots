@@ -1,26 +1,26 @@
 class Theme(object):
     color = {
-        "base": "#44475a",
+        "base": "#2b2d3a",
 
         # Normal
-        "black": "#21222C",
-        "red": "#FF5555",
-        "green": "#50FA7B",
-        "yellow": "#F1FA8C",
-        "blue": "#BD93F9",
-        "magenta": "#FF79C6",
-        "cyan": "#8BE9FD",
-        "white": "#F8F8F2",
+        "black": "#181a1c",
+        "red": "#fb617e",
+        "green": "#9ed06c",
+        "yellow": "#edc763",
+        "blue": "#6dcae8",
+        "magenta": "#bb97ee",
+        "cyan": "#f89860",
+        "white": "#e1e3e4",
 
         # Bright
-        "bright_black": "#6272A4",
-        "bright_red": "#FF6E6E",
-        "bright_green": "#69FF94",
-        "bright_yellow": "#FFFFA5",
-        "bright_blue": "#D6ACFF",
-        "bright_magenta": "#FF92DF",
-        "bright_cyan": "#A4FFFF",
-        "bright_white": "#FFFFFF",
+        "bright_black": "#3f445b",
+        "bright_red": "#f65c79",
+        "bright_green": "#99cb67",
+        "bright_yellow": "#e8c25e",
+        "bright_blue": "#68c5e3",
+        "bright_magenta": "#b692e9",
+        "bright_cyan": "#f3925b",
+        "bright_white": "#dcdedf",
     }
 
     bar = {

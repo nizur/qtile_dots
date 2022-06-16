@@ -5,6 +5,8 @@
 
 # TODO: Integrate dunst?
 # TODO: Toggle screensaver
+# TODO: Dracula bashtop theme?
+# TODO: Look into EWW
 
 import asyncio
 import os
@@ -20,7 +22,7 @@ from keys import keys
 from layouts import floating_layout, layouts
 from mouse import mouse
 from screens import screens
-from themes.dracula import Theme
+from themes.andromeda import Theme
 
 
 @hook.subscribe.startup

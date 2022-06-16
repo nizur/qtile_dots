@@ -3,7 +3,7 @@ from libqtile.lazy import lazy
 
 from keys import keys, MOD, SHIFT
 from layouts import layouts
-from themes.dracula import Theme
+from themes.andromeda import Theme
 
 
 ### GROUPS ###

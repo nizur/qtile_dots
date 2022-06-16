@@ -7,9 +7,9 @@ AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 class Commands(object):
     audio_get_volume = "pamixer --get-volume-human"
     audio_mute = "pamixer -m"
-    audio_play_pause = ""
-    audio_track_next = ""
-    audio_track_prev = ""
+    audio_play_pause = ""  # FIXME
+    audio_track_next = ""  # FIXME
+    audio_track_prev = ""  # FIXME
     audio_volume_down = "pamixer -d 2"
     audio_volume_up = "pamixer -i 2"
     autostart = HOME + "/.config/qtile/scripts/autostart.sh"

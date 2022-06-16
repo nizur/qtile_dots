@@ -1,13 +1,19 @@
 from libqtile import bar, widget
 
 from commands import Commands, HOME
-from themes.dracula import Theme
+from themes.andromeda import Theme
 from widgets.owm import OpenWeatherMap
 from widgets.volume import MyPulseVolume
 
 # TODO: Spotify/media control
 # TODO: Look into custom systray options
 # TODO: Find a better Dracula GTK theme
+
+sep = widget.Sep(
+    foreground=Theme.color["base"],
+    padding=0,
+    size_percent=100,
+)
 
 top_bar = bar.Bar([
     widget.Spacer(
@@ -41,6 +47,7 @@ top_bar = bar.Bar([
         padding=4,
         scale=0.4,
     ),
+    sep,
     widget.GroupBox(
         active=Theme.color["bright_magenta"],
         # background=Theme.color["base"],
@@ -56,6 +63,7 @@ top_bar = bar.Bar([
         urgent_border=Theme.color["bright_red"],
         urgent_text=Theme.color["white"],
     ),
+    sep,
     widget.Chord(
         chords_colors={
             "Audio": (Theme.color["magenta"], Theme.color["black"]),
@@ -68,7 +76,7 @@ top_bar = bar.Bar([
     ),
     widget.WindowName(
         for_current_screen=True,
-        padding=10
+        padding=10,
     ),
     widget.Spacer(),
     widget.Prompt(
@@ -83,6 +91,11 @@ top_bar = bar.Bar([
         fmt=" {}",
         foreground=Theme.color["bright_magenta"],
     ),
+    widget.WindowCount(
+        padding=10,
+        text_format=" {num}",
+    ),
+    sep,
     widget.Mpris2(
         name="spotify",
         objname="org.mpris.MediaPlayer2.spotify",
@@ -100,9 +113,7 @@ top_bar = bar.Bar([
         volume_down_command=Commands.audio_volume_down,
         volume_up_command=Commands.audio_volume_up,
     ),
-    widget.Sep(
-        foreground=Theme.color["black"],
-    ),
+    sep,
     OpenWeatherMap(
         api_key="b8c0a2258d0134fb50533560dfb89a73",
         foreground=Theme.color["cyan"],
@@ -111,14 +122,17 @@ top_bar = bar.Bar([
         longitude=-97.7,
         units="imperial",
     ),
+    sep,
     widget.Clock(
         foreground=Theme.color["yellow"],
         format=" %a %B %d",
     ),
+    sep,
     widget.Clock(
         foreground=Theme.color["magenta"],
         format=" %I:%M %p",
     ),
+    sep,
     widget.Wallpaper(
         directory=HOME + "/Pictures/Wallpapers",
         fontsize=16,

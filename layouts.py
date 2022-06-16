@@ -1,7 +1,7 @@
 from libqtile import layout
 from libqtile.config import Match
 
-from themes.dracula import Theme
+from themes.andromeda import Theme
 
 layouts = [
     layout.MonadTall(
@@ -10,6 +10,11 @@ layouts = [
     ),
     layout.Max(
         **Theme.layout["Base"],
+    ),
+    layout.Columns(
+        **Theme.layout["Base"],
+        **Theme.layout["Columns"],
+        fair=True,
     ),
     layout.Tile(
         **Theme.layout["Base"],
