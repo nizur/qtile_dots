@@ -20,7 +20,8 @@ class Commands(object):
     discord = "discord"
     files = "nautilus"
     gnome_session = "dbus-send --session --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.RegisterClient string:qtile string:"
-    menu = HOME + "/.config/rofi/launchers/ribbon/launcher.sh"
+    #menu = HOME + "/.config/rofi/launchers/ribbon/launcher.sh"
+    menu = "rofi -show drun"
     redshift = "redshift"
     screenshot = "scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $" + \
         HOME + "/Pictures/Screenshots'"

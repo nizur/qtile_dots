@@ -1,5 +1,5 @@
 class Theme(object):
-    color = {
+    colors = {
         "base": "#44475a",
 
         # Normal
@@ -24,24 +24,24 @@ class Theme(object):
     }
 
     bar = {
-        "background": color["black"],
-        "foreground": color["white"],
+        "background": colors["black"],
+        "foreground": colors["white"],
         "size": 32,
     }
 
     layout = {
         "Base": {
-            "border_focus": color["bright_magenta"],
-            "border_normal": color["black"],
+            "border_focus": colors["bright_magenta"],
+            "border_normal": colors["black"],
             "border_width": 3,
         },
         "MonadTall": {
-            "border_focus_stack": color["bright_magenta"],
-            "border_normal_stack": color["black"],
+            "border_focus_stack": colors["bright_magenta"],
+            "border_normal_stack": colors["black"],
         },
         "Columns": {
-            "border_focus_stack": color["bright_blue"],
-            "border_normal_stack": color["black"],
+            "border_focus_stack": colors["bright_blue"],
+            "border_normal_stack": colors["black"],
         }
     }
 

@@ -1,9 +1,8 @@
-from libqtile.config import Group, Key, KeyChord, Match
+from libqtile.config import Group, Key, Match
 from libqtile.lazy import lazy
 
 from keys import keys, MOD, SHIFT
 from layouts import layouts
-from themes.andromeda import Theme
 
 
 ### GROUPS ###

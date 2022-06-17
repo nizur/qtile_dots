@@ -5,7 +5,7 @@
 
 # TODO: Integrate dunst?
 # TODO: Toggle screensaver
-# TODO: Dracula bashtop theme?
+# TODO: Bashtop themes
 # TODO: Look into EWW
 
 import asyncio
@@ -22,12 +22,12 @@ from keys import keys
 from layouts import floating_layout, layouts
 from mouse import mouse
 from screens import screens
-from themes.andromeda import Theme
+from themes.mocha import Theme
 
 
 @hook.subscribe.startup
 def dbus_register():
-    id = os.environ.get('DESKTOP_AUTOSTART_ID')
+    id = os.environ.get("DESKTOP_AUTOSTART_ID")
     if not id:
         return
     subprocess.Popen([Commands.gnome_session + id])
@@ -40,14 +40,14 @@ def autostart():
 
 
 @hook.subscribe.client_new
-async def move_spotify(client):
+async def move_electron_apps(client):
     await asyncio.sleep(0.01)
-    if client.name == 'Spotify':
-        client.togroup('music')
-    elif client.name == 'Discord':
+    if client.name == "Spotify":
+        client.togroup("music")
+    elif client.name == "Discord":
         client.togroup("chat")
-    elif client.name == 'Logseq':
-        client.togroup('misc')
+    elif client.name == "Logseq":
+        client.togroup("misc")
 
 
 widget_defaults = dict(Theme.widget)

@@ -1,7 +1,7 @@
 from libqtile import layout
 from libqtile.config import Match
 
-from themes.andromeda import Theme
+from themes.mocha import Theme
 
 layouts = [
     layout.MonadTall(
