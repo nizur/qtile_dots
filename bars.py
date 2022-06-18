@@ -137,7 +137,7 @@ top_bar = bar.Bar([
         fontsize=16,
         foreground=Theme.colors["white"],
         label="",
-        random=True,
+        random_selection=True,
     ),
     widget.Spacer(
         length=2,

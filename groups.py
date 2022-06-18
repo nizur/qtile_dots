@@ -10,6 +10,7 @@ from layouts import layouts
 group_configs = (
     ("web", {
         "label": "",
+        "layout": layouts[1].name,
         "matches": [Match(wm_class=["Firefox"])],
         "spawn": ["firefox"],
     }),

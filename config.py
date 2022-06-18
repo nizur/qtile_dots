@@ -7,6 +7,7 @@
 # TODO: Toggle screensaver
 # TODO: Bashtop themes
 # TODO: Look into EWW
+# TODO: Drag/drop files?
 
 import asyncio
 import os
