@@ -33,7 +33,6 @@ top_bar = bar.Bar([
         custom_command="zypper lu",
         custom_command_modify=lambda x: x - 4,
         display_format=" {updates}",
-        mouse_callbacks={"Button1": lazy.spawn(Commands.zypper_dup)},
         padding=0,
         update_interval=14400,
     ),
@@ -104,7 +103,7 @@ top_bar = bar.Bar([
         stop_pause_text="Paused...",
     ),
     MyPulseVolume(
-        foreground=Theme.colors["green"],
+        foreground=Theme.colors["cyan"],
         get_volume_command=Commands.audio_get_volume,
         limit_max_volume=True,
         mute_command=Commands.audio_mute,
@@ -116,7 +115,7 @@ top_bar = bar.Bar([
     sep,
     OpenWeatherMap(
         api_key="b8c0a2258d0134fb50533560dfb89a73",
-        foreground=Theme.colors["cyan"],
+        foreground=Theme.colors["green"],
         format="{icon} {temp:.0f}{temp_units}",
         latitude=30.2,
         longitude=-97.7,
@@ -142,5 +141,37 @@ top_bar = bar.Bar([
     ),
     widget.Spacer(
         length=2,
+    ),
+    sep,
+    widget.Spacer(
+        length=6,
+    ),
+    widget.WidgetBox(
+        widgets=[
+            widget.Spacer(
+                length=6,
+            ),
+            widget.TextBox(
+                background=Theme.colors["base"],
+                foreground=Theme.colors["green"],
+                text=" " + Commands.get_os_release(),
+            ),
+            widget.Spacer(
+                length=2,
+            ),
+            widget.TextBox(
+                background=Theme.colors["base"],
+                foreground=Theme.colors["yellow"],
+                text=" " + Commands.get_kernel_release(),
+            ),
+            widget.Systray(),
+        ],
+        fontsize=18,
+        foreground=Theme.colors["red"],
+        text_closed="",
+        text_open=""
+    ),
+    widget.Spacer(
+        length=8,
     ),
 ], **Theme.bar)

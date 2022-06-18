@@ -1,5 +1,8 @@
 import os
 
+from subprocess import check_output
+
+
 HOME = os.path.expanduser("~")
 AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 
@@ -25,7 +28,12 @@ class Commands(object):
     redshift = "redshift"
     screenshot = "scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $" + \
         HOME + "/Pictures/Screenshots'"
-    spotify_next = HOME + "/.config/qtile/scripts/spotify_next.sh"
-    spotify_prev = HOME + "/.config/qtile/scripts/spotify_prev.sh"
-    terminal = "alacritty"
-    zypper_dup = terminal + " -e sudo zypper dup"
+    #spotify_next = HOME + "/.config/qtile/scripts/spotify_next.sh"
+    #spotify_prev = HOME + "/.config/qtile/scripts/spotify_prev.sh"
+    terminal = "kitty"
+
+    def get_kernel_release():
+        return check_output(["uname", "-r"]).decode("utf-8").replace("\n", "")
+
+    def get_os_release():
+        return check_output(["lsb-release", "-rs"]).decode("utf-8").replace("\n", "")
