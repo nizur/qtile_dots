@@ -4,7 +4,6 @@ from subprocess import check_output
 
 
 HOME = os.path.expanduser("~")
-AUTOSTART_ID = os.environ.get("DESKTOP_AUTOSTART_ID")
 
 
 class Commands(object):

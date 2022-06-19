@@ -5,54 +5,22 @@
 
 # TODO: Integrate dunst?
 # TODO: Toggle screensaver
-# TODO: Bashtop themes
 # TODO: Look into EWW
 # TODO: Drag/drop files?
 
-import asyncio
-import os
-import subprocess
-
-from typing import List  # noqa: F401
-
-from libqtile import hook
-
-from commands import Commands
+from defines import *
 from groups import groups, layouts
 from keys import keys
 from layouts import floating_layout, layouts
 from mouse import mouse
-from screens import screens
-from themes.mocha import Theme
+from screens import *
+from hooks import *
 
+try:
+    from typing import List  # noqa: F401
+except ImportError:
+    pass
 
-@hook.subscribe.startup
-def dbus_register():
-    id = os.environ.get("DESKTOP_AUTOSTART_ID")
-    if not id:
-        return
-    subprocess.Popen([Commands.gnome_session + id])
-
-
-@hook.subscribe.startup
-def autostart():
-    # subprocess.call([Commands.redshift])
-    subprocess.Popen([Commands.autostart])
-
-
-@hook.subscribe.client_new
-async def move_electron_apps(client):
-    await asyncio.sleep(0.01)
-    if client.name == "Spotify":
-        client.togroup("music")
-    elif client.name == "Discord":
-        client.togroup("chat")
-    elif client.name == "Logseq":
-        client.togroup("misc")
-
-
-widget_defaults = dict(Theme.widget)
-extension_defaults = widget_defaults.copy()
 
 auto_fullscreen = True
 # If things like steam games want to auto-minimize themselves when losing

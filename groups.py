@@ -17,8 +17,8 @@ group_configs = (
     ("tty", {
         "label": "",
         "layout": layouts[2].name,
-        "matches": [Match(wm_class=["Alacritty"])],
-        "spawn": ["alacritty"],
+        "matches": [Match(wm_class=["Alacritty", "Kitty"])],
+        "spawn": ["kitty"],
     }),
     ("dev", {
         "label": "",

@@ -32,7 +32,7 @@ top_bar = bar.Bar([
         colour_have_updates=Theme.colors["black"],
         custom_command="zypper lu",
         custom_command_modify=lambda x: x - 4,
-        display_format=" {updates}",
+        display_format="{updates}",
         padding=0,
         update_interval=14400,
     ),
@@ -60,7 +60,7 @@ top_bar = bar.Bar([
         this_current_screen_border=Theme.colors["blue"],
         urgent_alert_method="block",
         urgent_border=Theme.colors["bright_red"],
-        urgent_text=Theme.colors["white"],
+        urgent_text=Theme.colors["black"],
     ),
     sep,
     widget.Chord(
