@@ -69,12 +69,3 @@ groups = [
                  ),
     ]),
 ]
-
-# for i, (group, config) in enumerate(group_configs, 1):
-#     groups.append(Group(group, **config))
-#     keys.extend([
-#         Key([MOD], str(i), lazy.group[group].toscreen(),
-#             desc="Switch to group {}".format(group)),
-#         Key([MOD, SHIFT], str(i), lazy.window.togroup(group, switch_group=True),
-#             desc="Switch to & move focused window to group {}".format(group))
-#     ])
