@@ -8,14 +8,14 @@ groups = [
         label="",
         layout="max",
         matches=[Match(wm_instance_class=["firefox", "Firefox", "Navigator"])],
-        spawn=["firefox"],
     ),
     Group(
         exclusive=True,
         name="tty",
         label="",
         layout="columns",
-        matches=[Match(wm_instance_class=["alacritty", "kitty", "Kitty"])],
+        matches=[Match(wm_instance_class=["alacritty",
+                       "Alacritty", "kitty", "Kitty"])],
     ),
     Group(
         exclusive=True,

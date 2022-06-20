@@ -60,7 +60,6 @@ for i in range(0, num_screen):
                     padding=4,
                     scale=0.5,
                 ),
-                sep,
                 widget.GroupBox(
                     active=Palette.colors["blue"],
                     # background=Palette.colors["base"],
@@ -182,6 +181,7 @@ for i in range(0, num_screen):
                 ),
             ],
                 background=Palette.colors["crust"],
+                border_radius=3,
                 foreground=Palette.colors["text"],
                 size=32,
                 opacity=0.888888880,

@@ -24,9 +24,9 @@ class AutoStart(object):
 
     def check_running(self, cmd):
         try:
-            r = run(['pgrep', '-f', '-l', '-a', ' '.join(cmd)])
+            r = run(["pgrep", "-f", "-l", "-a", " ".join(cmd)])
             if r.returncode == 1:
-                logger.info(f'Process {cmd} is not started!')
+                logger.info(f"Process {cmd} is not started!")
 
                 return False
         except Exception as e:
@@ -37,7 +37,7 @@ class AutoStart(object):
         return True
 
     def thread_run(self, *cmd):
-        logger.warning(f'Starting {cmd}')
+        logger.warning(f"Starting {cmd}")
 
         try:
             Popen(cmd, shell=False)
@@ -55,11 +55,11 @@ class AutoStart(object):
             c = [x] if type(i) is str else list(i)
 
             if not access(x, X_OK):
-                logger.error(f'{x} does not exist or is not executable!')
+                logger.info(f"{x} does not exist or is not executable!")
                 continue
 
             if not self.check_running(c):
-                logger.info(f'{c} Starting thread...')
+                logger.info(f"{c} Starting thread...")
 
                 try:
                     Thread(target=self.thread_run, args=(c)).start()
@@ -122,6 +122,7 @@ class Helpers():
         @lazy.function
         def f(qtile):
             targetdir = expanduser("~/Pictures/Screenshots/")
+            logger.warning(targetdir)
 
             if not isdir(targetdir):
                 try:
@@ -131,81 +132,85 @@ class Helpers():
                         raise
 
             hostname = platform.node()
-            cmd = ["scrot"]
-            opts = ["-d", "5"]
+            cmd = ["maim"]
+            opts = []
 
             if mode == "window":
-                target = f'{targetdir}/{hostname}_window_{str(int(time() * 100))}.png'
-                _id = qtile.current_window.cmd_info()['id']
-                opts.extend(['-u', f'{_id}'])
-            elif mode == 'select':
-                target = f'{targetdir}/{hostname}_select_{str(int(time() * 100))}.png'
-                opts.append('-s')
+                target = f"{targetdir}/{hostname}_window_{str(int(time() * 100))}.png"
+                _id = qtile.current_window.cmd_info()["id"]
+                opts.extend(["-i", f"{_id}"])
+                logger.warning(opts)
+            elif mode == "select":
+                target = f"{targetdir}/{hostname}_select_{str(int(time() * 100))}.png"
+                opts.append("-s")
+                logger.warning(opts)
             else:
-                target = f'{targetdir}/{hostname}_full_{str(int(time() * 100))}.png'
+                target = f"{targetdir}/{hostname}_full_{str(int(time() * 100))}.png"
 
             cmd.extend(opts)
             cmd.append(target)
 
+            logger.warning(cmd)
+
             r = run(cmd)
 
             if clipboard:
-                logger.error('Copying to clipboard!')
+                logger.warning("Copying to clipboard!")
                 if r.returncode == 0:
-                    f = open(target, 'rb')
-                    x = run(['xclip', '-selection', 'c', '-t',
-                            'image/png'], input=f.read())
+                    f = open(target, "rb")
+                    x = run(["xclip", "-selection", "c", "-t",
+                            "image/png"], input=f.read())
                     remove(target)
                 else:
-                    logger.error(f'Strange thing happend! {r}')
+                    logger.error(f"Strange thing happened! {r}")
 
         return
 
     def get_screen_size():
         try:
             r = run(
-                ['sh', '-c', '/usr/bin/xrandr | awk \'/\*/ {print $1}\''], stdout=PIPE, universal_newlines=True)
+                ["sh", "-c", "/usr/bin/xrandr | awk \"/\*/ {print $1}\""], stdout=PIPE, universal_newlines=True)
 
-            s = r.stdout.lstrip().split('x', 2)
+            s = r.stdout.lstrip().split("x", 2)
             w = s[0]
             h = s[1]
 
             return {
-                'width': int(w),
-                'height': int(h),
+                "width": int(w),
+                "height": int(h),
             }
         except Exception as e:
             logger.error(e)
 
         return {
-            'width': 0,
-            'height': 0,
+            "width": 0,
+            "height": 0,
         }
 
     def get_type_screen():
-        det = 'SD'
+        det = "SD"
 
         dim = Helpers.get_screen_size()
 
-        if dim['height'] >= 720:
-            det = 'HD'
+        if dim["height"] >= 720:
+            det = "HD"
 
-        if dim['height'] >= 900:
-            det = 'HD+'
+        if dim["height"] >= 900:
+            det = "HD+"
 
-        if dim['height'] >= 1050:
-            det = 'WSXGA+'
+        if dim["height"] >= 1050:
+            det = "WSXGA+"
 
-        if dim['height'] >= 1080:
-            det = 'FHD'
+        if dim["height"] >= 1080:
+            det = "FHD"
 
-        if dim['height'] >= 1971:
-            det = '4K VMware'
+        if dim["height"] >= 1971:
+            det = "4K VMware"
 
-        if dim['height'] >= 2160:
-            det = '4K UHD'
+        if dim["height"] >= 2160:
+            det = "4K UHD"
 
-        logger.error('Detected ~ resolution: %s' % det)
+        logger.error("Detected ~ resolution: %s" % det)
 
         return det
 
@@ -213,7 +218,7 @@ class Helpers():
         num = 1
 
         try:
-            r = run(['sh', '-c', '/usr/bin/xrandr --listactivemonitors | head -n1 | tr -dc \'0-9\''],
+            r = run(["sh", "-c", "/usr/bin/xrandr --listactivemonitors | head -n1 | tr -dc \"0-9\""],
                     stdout=PIPE, universal_newlines=True)
             num = r.stdout.strip()
         except Exception as e:

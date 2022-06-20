@@ -17,26 +17,28 @@ def autostart():
     AutoStart()
 
 
-@hook.subscribe.startup_complete
+@hook.subscribe.startup
 def dbus_register():
     id = environ.get("DESKTOP_AUTOSTART_ID")
+    logger.warning(f"DESKTOP_AUTOSTART_ID = {id}")
     if not id:
         return
-    Popen(['dbus-send',
-           '--session',
-           '--print-reply',
-           '--dest=org.gnome.SessionManager',
-           '/org/gnome/SessionManager',
-           'org.gnome.SessionManager.RegisterClient',
-           'string:qtile',
-           'string:' + id])
+    Popen(["dbus-send",
+           "--session",
+           "--print-reply",
+           "--dest=org.gnome.SessionManager",
+           "/org/gnome/SessionManager",
+           "org.gnome.SessionManager.RegisterClient",
+           "string:qtile",
+           f"string:{id}"])
 
 
 @hook.subscribe.startup_complete
 def auto_screens():
-    r = run(['sh', '-c', 'xrandr --listactivemonitors | head -n1'],
+    r = run(["sh", "-c", "xrandr --listactivemonitors | head -n1"],
             stdout=PIPE, universal_newlines=True)
-    logger.info(f'Found {r.stdout} displays')
+    r = r.stdout.replace("\n", "")
+    logger.warning(f"{r} Found")
 
 
 @hook.subscribe.client_new
@@ -46,3 +48,7 @@ async def specific_instance_rules(client):
         client.togroup("music")
     elif client.name == "Discord":
         client.togroup("chat")
+    elif client.name == "Logseq":
+        client.togroup("misc")
+    elif client.name in ["pcloud", "pCloud", "pCloud Client", "pCloud Drive"]:
+        client.togroup("misc")
