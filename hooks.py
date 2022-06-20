@@ -36,7 +36,7 @@ def dbus_register():
 def auto_screens():
     r = run(['sh', '-c', 'xrandr --listactivemonitors | head -n1'],
             stdout=PIPE, universal_newlines=True)
-    logger.error(f'Found {r.stdout} displays')
+    logger.info(f'Found {r.stdout} displays')
 
 
 @hook.subscribe.client_new
@@ -46,5 +46,3 @@ async def specific_instance_rules(client):
         client.togroup("music")
     elif client.name == "Discord":
         client.togroup("chat")
-    elif client.name == "Logseq":
-        client.togroup("misc")

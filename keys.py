@@ -1,48 +1,34 @@
-from libqtile.config import Key, KeyChord
+from libqtile.config import Key, KeyChord, ScratchPad
 from libqtile.lazy import lazy
 
-from commands import Commands
-from functions import to_urgent
+from classes import Helpers
+from groups import groups
 
 ALT = "mod1"
 MOD = "mod4"
 CTL = "control"
 SHIFT = "shift"
 
-# Switch group & switch to group keys in groups.py
-
 keys = [
-    KeyChord([MOD], "o", [
-        Key([], "d",
-            lazy.spawn(Commands.discord),
-            desc="Run Discord"),
-        Key([], "f",
-            lazy.spawn(Commands.browser),
-            desc="Run browser"),
-        Key([], "v",
-            lazy.spawn(Commands.code),
-            desc="Run Visual Studio Code"),
-    ], mode="Open"),
-
     KeyChord([MOD], "a", [
         Key([], "Print",
-            lazy.spawn(Commands.audio_mute),
+            lazy.spawn("pamixer -m"),
             desc="Mute Track"),
         Key([], "Up",
-            lazy.spawn(Commands.audio_volume_up),
+            lazy.spawn("pamixer -i 4"),
             desc="Volume Up"),
         Key([], "Down",
-            lazy.spawn(Commands.audio_volume_down),
+            lazy.spawn("pamixer -d 4"),
             desc="Volume Down"),
-        Key([], "Left",
-            lazy.spawn(Commands.audio_track_prev),
-            desc="Previous Track"),
-        Key([], "Right",
-            lazy.spawn(Commands.audio_track_next),
-            desc="Next Track"),
-        Key([], "Return",
-            lazy.spawn(Commands.audio_play_pause),
-            desc="Play/Pause Track"),
+        # Key([], "Left",
+        #     lazy.spawn(Commands.audio_track_prev),
+        #     desc="Previous Track"),
+        # Key([], "Right",
+        #     lazy.spawn(Commands.audio_track_next),
+        #     desc="Next Track"),
+        # Key([], "Return",
+        #     lazy.spawn(Commands.audio_play_pause),
+        #     desc="Play/Pause Track"),
     ], mode="Audio"),
 
     # Resize windows. If current window is on the edge of screen and direction
@@ -72,10 +58,10 @@ keys = [
 
     # Custom
     Key([MOD], "d",
-        lazy.spawn(Commands.menu),
+        lazy.spawn("rofi -show drun"),
         desc="Run launcher"),
     Key([MOD], "c",
-        lazy.spawn(Commands.calc),
+        lazy.spawn("rofi -modi calc -show calc -no-show-match -no-bold"),
         desc="Run calculator"),
     Key([MOD], "q",
         lazy.window.kill(),
@@ -84,17 +70,23 @@ keys = [
         lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
     Key([MOD], "Return",
-        lazy.spawn(Commands.terminal),
+        lazy.spawn("kitty"),
         desc="Launch terminal"),
-    Key([SHIFT], "F12",
-        lazy.function(to_urgent),
+    Key([CTL], "F1",
+        lazy.function(Helpers.go_to_urgent),
         desc="Switch to urgent group"),
-    # Key([MOD], "Escape",
-    #   lazy.spawn(Commands.powermenu),
-    #   desc="Run powermenu"),
+    Key([], 'F12',
+        lazy.group['dropdown'].dropdown_toggle('term'),
+        desc="Toggle the terminal scratchpad"),
     Key([], "Print",
-        lazy.spawn(Commands.screenshot),
-        desc="Take screenshot"),
+        Helpers.create_screenshot(clipboard=False),
+        desc="Take a screenshot"),
+    Key([ALT], "Print",
+        Helpers.create_screenshot(mode='window', clipboard=False),
+        desc="Take a screenshot of a specific window"),
+    Key([CTL], "Print",
+        Helpers.create_screenshot(mode='select', clipboard=False),
+        desc="Take a screenshot of a selected area"),
 
     # Switch between windows
     Key([MOD], "h",
@@ -156,3 +148,19 @@ keys = [
         lazy.shutdown(),
         desc="Shutdown Qtile"),
 ]
+
+for i, group in enumerate(groups, start=1):
+    if not isinstance(i, ScratchPad):
+        group = group.name
+        keys.extend([
+            # mod1 + letter of group = switch to group
+            Key([MOD], str(i), lazy.group[group].toscreen(),
+                desc="Switch to group {}".format(group)),
+
+            # mod1 + shift + letter of group = switch to & move focused window to group
+            Key([MOD, SHIFT], str(i), lazy.window.togroup(group, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(group)),
+
+            # mod1 + control + letter of group = switch to & move focused window to group
+            #Key([MOD, CTL], i.name, Helpers.windows_to_group(i.name)),
+        ])

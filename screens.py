@@ -56,10 +56,9 @@ for i in range(0, num_screen):
                     length=8,
                 ),
                 widget.CurrentLayoutIcon(
-                    custom_icon_paths=[(expanduser("~/.config/qtile/icons"))],
-                    foreground=Palette.colors["yellow"],
+                    custom_icon_paths=[expanduser("~/.config/qtile/icons")],
                     padding=4,
-                    scale=0.4,
+                    scale=0.5,
                 ),
                 sep,
                 widget.GroupBox(
@@ -84,7 +83,6 @@ for i in range(0, num_screen):
                         "Gnome": (Palette.colors["green"], Palette.colors["crust"]),
                         "Grow": (Palette.colors["blue"], Palette.colors["crust"]),
                         "Migrate": (Palette.colors["sapphire"], Palette.colors["crust"]),
-                        "Open": (Palette.colors["yellow"], Palette.colors["crust"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),

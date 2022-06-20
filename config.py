@@ -9,10 +9,10 @@
 # TODO: Drag/drop files?
 
 from defines import *
-from groups import groups, layouts
-from keys import keys
-from layouts import floating_layout, layouts
-from mouse import mouse
+from groups import *
+from keys import *
+from layouts import *
+from mouse import *
 from screens import *
 from hooks import *
 

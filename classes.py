@@ -109,6 +109,58 @@ class Helpers():
     def get_os_release():
         return check_output(["lsb-release", "-rs"]).decode("utf-8").replace("\n", "")
 
+    def go_to_urgent(qtile):
+        cg = qtile.currentGroup
+        for group in qtile.groupMap.values():
+            if group == cg:
+                continue
+            if len([w for w in group.windows if w.urgent]) > 0:
+                qtile.currentScreen.setGroup(group)
+                return
+
+    def create_screenshot(mode=False, clipboard=True):
+        @lazy.function
+        def f(qtile):
+            targetdir = expanduser("~/Pictures/Screenshots/")
+
+            if not isdir(targetdir):
+                try:
+                    makedirs(targetdir)
+                except OSError:
+                    if not isdir(targetdir):
+                        raise
+
+            hostname = platform.node()
+            cmd = ["scrot"]
+            opts = ["-d", "5"]
+
+            if mode == "window":
+                target = f'{targetdir}/{hostname}_window_{str(int(time() * 100))}.png'
+                _id = qtile.current_window.cmd_info()['id']
+                opts.extend(['-u', f'{_id}'])
+            elif mode == 'select':
+                target = f'{targetdir}/{hostname}_select_{str(int(time() * 100))}.png'
+                opts.append('-s')
+            else:
+                target = f'{targetdir}/{hostname}_full_{str(int(time() * 100))}.png'
+
+            cmd.extend(opts)
+            cmd.append(target)
+
+            r = run(cmd)
+
+            if clipboard:
+                logger.error('Copying to clipboard!')
+                if r.returncode == 0:
+                    f = open(target, 'rb')
+                    x = run(['xclip', '-selection', 'c', '-t',
+                            'image/png'], input=f.read())
+                    remove(target)
+                else:
+                    logger.error(f'Strange thing happend! {r}')
+
+        return
+
     def get_screen_size():
         try:
             r = run(
