@@ -44,5 +44,6 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="pcloud"),
+        Match(wm_class="gcr-prompter"),
     ],
 )
