@@ -8,6 +8,8 @@ from widgets.volume import MyPulseVolume
 
 from classes import Helpers, Palette
 
+# TODO: Add CPU/Memory/HD to info section?
+
 widget_defaults = dict(
     background=Palette.colors["base"],
     font="iM WritingQuattroS Nerd Font",

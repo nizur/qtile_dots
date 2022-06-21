@@ -30,7 +30,7 @@ bring_front_click = False
 cursor_warp = False
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
-focus_on_window_activation = "smart"
+focus_on_window_activation = "focus"  # "smart"
 follow_mouse_focus = True
 reconfigure_screens = True
 

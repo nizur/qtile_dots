@@ -54,3 +54,11 @@ def set_screens(event):
     if event:
         run(["autorandr", "--change"])
     qtile.restart()
+
+
+# TODO: Get pcloud to run in background on startup
+# TODO: Go to or spawn app/group
+# TODO: Have generic groups. When specific apps are opened
+#   inside a group, the label changes to an associated icon
+#   to indicate where that app is. When the app is closed
+#   the group label reverts back to the default icon

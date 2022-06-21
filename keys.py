@@ -10,15 +10,22 @@ CTL = "control"
 SHIFT = "shift"
 
 keys = [
+
+    ##########
+    # CHORDS #
+    ##########
+
+    # AUDIO #
+
     KeyChord([MOD], "a", [
         Key([], "Print",
             lazy.spawn("pamixer -m"),
             desc="Mute Track"),
         Key([], "Up",
-            lazy.spawn("pamixer -i 4"),
+            lazy.spawn("pamixer -i 5"),
             desc="Volume Up"),
         Key([], "Down",
-            lazy.spawn("pamixer -d 4"),
+            lazy.spawn("pamixer -d 5"),
             desc="Volume Down"),
         # Key([], "Left",
         #     lazy.spawn(Commands.audio_track_prev),
@@ -31,53 +38,100 @@ keys = [
         #     desc="Play/Pause Track"),
     ], mode="Audio"),
 
-    # Resize windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
+    # WINDOW RESIZING #
+
     KeyChord([MOD], "g", [
-        Key([], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-        Key([], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-        Key([], "j", lazy.layout.grow_down(), desc="Grow window down"),
-        Key([], "k", lazy.layout.grow_up(), desc="Grow window up"),
-        Key([], "g", lazy.layout.grow(), desc="Grow window"),
-        Key([], "s", lazy.layout.shrink(), desc="Shrink window"),
-        Key([], "m", lazy.layout.maximize(), desc="Maximize window"),
-        Key([], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+        Key([], "h",
+            lazy.layout.grow_left(),
+            lazy.layout.shrink(),
+            lazy.layout.decrease_ratio(),
+            lazy.layout.add(),
+            desc="Grow window to the left"),
+        Key([], "l",
+            lazy.layout.grow_right(),
+            lazy.layout.grow(),
+            lazy.layout.increase_ratio(),
+            lazy.layout.delete(),
+            desc="Grow window to the right"),
+        Key([], "j",
+            lazy.layout.grow_down(),
+            lazy.layout.shrink(),
+            lazy.layout.increase_nmaster(),
+            desc="Grow window down"),
+        Key([], "k",
+            lazy.layout.grow_up(),
+            lazy.layout.grow(),
+            lazy.layout.decrease_nmaster(),
+            desc="Grow window up"),
+        # Key([], "g",
+        #     lazy.layout.grow(),
+        #     desc="Grow window"),
+        # Key([], "s",
+        #     lazy.layout.shrink(),
+        #     desc="Shrink window"),
+        Key([], "m",
+            lazy.layout.maximize(),
+            desc="Maximize window"),
+        Key([], "n",
+            lazy.layout.normalize(),
+            desc="Reset all window sizes"),
     ], mode="Grow"),
 
-    KeyChord([MOD, CTL], "g", [
-        Key([], "l",
-            lazy.spawn("gnome-screensaver-command -l"),
-            desc="Suspend"),
-        Key([], "q",
-            lazy.spawn("gnome-session-quit --logout --no-prompt"),
-            desc="Logout of Gnome"),
-        Key([SHIFT], "q",
-            lazy.spawn("gnome-session-quit --power-off"),
-            desc="Shutdown"),
-    ], mode="Gnome"),
+    # GNOME CONTROL #
 
-    # Custom
+    # KeyChord([MOD, CTL], "g", [
+    #     Key([], "l",
+    #         lazy.spawn("gnome-screensaver-command -l"),
+    #         desc="Suspend"),
+    #     Key([], "q",
+    #         lazy.spawn("gnome-session-quit --logout --no-prompt"),
+    #         desc="Logout of Gnome"),
+    #     Key([SHIFT], "q",
+    #         lazy.spawn("gnome-session-quit --power-off"),
+    #         desc="Shutdown"),
+    # ], mode="Gnome"),
+
+
+    ###############
+    # APP CONTROL #
+    ###############
+
     Key([MOD], "d",
         lazy.spawn("rofi -show drun"),
         desc="Run launcher"),
     Key([MOD], "c",
         lazy.spawn("rofi -modi calc -show calc -no-show-match -no-bold"),
         desc="Run calculator"),
-    Key([MOD], "q",
-        lazy.window.kill(),
-        desc="Kill focused window"),
     Key([MOD], "p",
         lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
     Key([MOD], "Return",
         lazy.spawn("kitty"),
         desc="Launch terminal"),
-    Key([CTL], "F1",
-        lazy.function(Helpers.go_to_urgent),
-        desc="Switch to urgent group"),
     Key([], "F12",
         lazy.group["dropdown"].dropdown_toggle("term"),
         desc="Toggle the terminal scratchpad"),
+
+
+    ########
+    # MISC #
+    ########
+
+    Key([CTL], "F1",
+        lazy.function(Helpers.go_to_urgent),
+        desc="Switch to urgent group"),
+    Key([MOD], "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen"),
+    Key([MOD], "q",
+        lazy.window.kill(),
+        desc="Kill focused window"),
+
+
+    ##############
+    # SCREENSHOT #
+    ##############
+
     Key([], "Print",
         Helpers.create_screenshot(clipboard=False),
         desc="Take a screenshot"),
@@ -88,36 +142,64 @@ keys = [
         Helpers.create_screenshot(mode="select", clipboard=False),
         desc="Take a screenshot of a selected area"),
 
-    # Switch between windows
+
+    ################
+    # WINDOW FOCUS #
+    ################
+
     Key([MOD], "h",
         lazy.layout.left(),
-        desc="Move focus to left"),
+        desc="Move focus left"),
     Key([MOD], "l",
         lazy.layout.right(),
-        desc="Move focus to right"),
+        desc="Move focus right"),
     Key([MOD], "j",
         lazy.layout.down(),
         desc="Move focus down"),
     Key([MOD], "k",
         lazy.layout.up(),
         desc="Move focus up"),
+    Key([MOD], "space",
+        lazy.layout.next(),
+        desc="Move focus to next window"),
 
+
+    ###################
+    # LAYOUT SPECIFIC #
+    ###################
+
+    # SWITCH TO NEXT AVAILABLE LAYOUT
+    Key([MOD], "Tab",
+        lazy.next_layout(),
+        desc="Toggle between layouts"),
+
+    ### MONADS: FLIP/ROTATE ###
     Key([MOD, SHIFT], "space",
         lazy.layout.rotate(),
         lazy.layout.flip(),
         desc="Flip the layout"),
-    Key([MOD], "space",
-        lazy.layout.next(),
-        desc="Move window focus to other window"),
 
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
+    ### BSP: FLIP LAYOUT ###
+    Key([MOD, CTL], "k",
+        lazy.layout.flip_up(),
+        desc="Flip window up"),
+    Key([MOD, CTL], "j",
+        lazy.layout.flip_down(),
+        desc="Flip window down"),
+    Key([MOD, CTL], "l",
+        lazy.layout.flip_right(),
+        desc="Flip window right"),
+    Key([MOD, CTL], "h",
+        lazy.layout.flip_left(),
+        desc="Flip window left"),
+
+    ### BSP/STACK: MOVE WINDOWS ###
     Key([MOD, SHIFT], "h",
         lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
+        desc="Move window left"),
     Key([MOD, SHIFT], "l",
         lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
+        desc="Move window right"),
     Key([MOD, SHIFT], "j",
         lazy.layout.shuffle_down(),
         lazy.layout.section_down(),
@@ -127,6 +209,7 @@ keys = [
         lazy.layout.section_up(),
         desc="Move window up"),
 
+    ### STACK: SPLIT ###
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -135,12 +218,11 @@ keys = [
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack"),
 
-    # Toggle between different layouts as defined below
-    Key([MOD], "Tab",
-        lazy.next_layout(),
-        desc="Toggle between layouts"),
 
-    # Restart/shutdown
+    #################
+    # QTILE CONTROL #
+    #################
+
     Key([MOD, CTL], "r",
         lazy.restart(),
         desc="Restart Qtile"),
@@ -149,18 +231,23 @@ keys = [
         desc="Shutdown Qtile"),
 ]
 
+
+#########################
+# SWITCH BETWEEN GROUPS #
+#########################
+
 for i, group in enumerate(groups, start=1):
     if not isinstance(i, ScratchPad):
         group = group.name
         keys.extend([
-            # mod1 + letter of group = switch to group
+            # SWITCH TO GROUP #
             Key([MOD], str(i), lazy.group[group].toscreen(),
                 desc="Switch to group {}".format(group)),
 
-            # mod1 + shift + letter of group = switch to & move focused window to group
+            # SWITCH TO & MOVE FOCUSED WINDOW TO GROUP #
             Key([MOD, SHIFT], str(i), lazy.window.togroup(group, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(group)),
 
-            # mod1 + control + letter of group = switch to & move focused window to group
-            #Key([MOD, CTL], i.name, Helpers.windows_to_group(i.name)),
+            # SWITCH TO & MOVE ALL CURRENT WINDOWS TO GROUP #
+            #Key([MOD, CTL], str(i), Helpers.windows_to_group(group)),
         ])
