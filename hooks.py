@@ -1,6 +1,6 @@
 from os import environ
 from subprocess import PIPE, Popen, run
-from libqtile import hook
+from libqtile import qtile, hook
 from libqtile.log_utils import logger
 from asyncio import sleep
 
@@ -42,13 +42,15 @@ def auto_screens():
 
 
 @hook.subscribe.client_new
-async def specific_instance_rules(client):
-    await sleep(0.01)
+def specific_instance_rules(client):
     if client.name == "Spotify":
         client.togroup("music")
     elif client.name == "Discord":
         client.togroup("chat")
-    elif client.name == "Logseq":
-        client.togroup("misc")
-    elif client.name in ["pcloud", "pCloud", "pCloud Client", "pCloud Drive"]:
-        client.togroup("misc")
+
+
+@hook.subscribe.screen_change
+def set_screens(event):
+    if event:
+        run(["autorandr", "--change"])
+    qtile.restart()

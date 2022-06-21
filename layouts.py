@@ -6,7 +6,10 @@ from classes import Palette
 base_layout_config = {
     "border_focus": Palette.colors["blue"],
     "border_normal": Palette.colors["crust"],
-    "border_width": 3,
+    "border_on_single": False,
+    "border_width": 2,
+    "margin": [0, 5, 5, 5],
+    "single_border_width": 0,
 }
 
 cols_layout_config = {
@@ -15,20 +18,15 @@ cols_layout_config = {
 }
 
 layouts = [
-    layout.MonadTall(
+    layout.Bsp(
         **base_layout_config,
-        **cols_layout_config,
     ),
     layout.Max(
         **base_layout_config,
     ),
     layout.Columns(
-        fair=True,
         **base_layout_config,
         **cols_layout_config,
-    ),
-    layout.Tile(
-        **base_layout_config,
     ),
 ]
 
@@ -45,5 +43,6 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="pcloud"),
         Match(wm_class="gcr-prompter"),
+        Match(wm_class="gnome-screenshot"),
     ],
 )

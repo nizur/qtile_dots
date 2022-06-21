@@ -48,15 +48,13 @@ for i in range(0, num_screen):
                     custom_command="zypper lu",
                     custom_command_modify=lambda x: x - 4,
                     display_format="{updates}",
-                    padding=0,
+                    padding=4,
                     update_interval=14400,
                 ),
-                widget.Spacer(
-                    background=Palette.colors["green"],
-                    length=8,
-                ),
                 widget.CurrentLayoutIcon(
-                    custom_icon_paths=[expanduser("~/.config/qtile/icons")],
+                    # custom_icon_paths=[expanduser(
+                    #    "~/.config/qtile/layout-icons/gruvbox-neutral_orange")],
+                    foreground=Palette.colors["green"],
                     padding=4,
                     scale=0.5,
                 ),
@@ -157,7 +155,6 @@ for i in range(0, num_screen):
                             length=6,
                         ),
                         widget.TextBox(
-                            background=Palette.colors["base"],
                             foreground=Palette.colors["green"],
                             text=" " + Helpers.get_os_release(),
                         ),
@@ -165,7 +162,6 @@ for i in range(0, num_screen):
                             length=2,
                         ),
                         widget.TextBox(
-                            background=Palette.colors["base"],
                             foreground=Palette.colors["yellow"],
                             text=" " + Helpers.get_kernel_release(),
                         ),
@@ -183,6 +179,7 @@ for i in range(0, num_screen):
                 background=Palette.colors["crust"],
                 border_radius=3,
                 foreground=Palette.colors["text"],
+                margin=5,
                 size=32,
                 opacity=0.888888880,
             ),
