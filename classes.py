@@ -55,7 +55,7 @@ class AutoStart(object):
             c = [x] if type(i) is str else list(i)
 
             if not access(x, X_OK):
-                logger.info(f"{x} does not exist or is not executable!")
+                logger.warning(f"{x} does not exist or is not executable!")
                 continue
 
             if not self.check_running(c):
