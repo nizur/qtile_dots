@@ -1,10 +1,10 @@
 from os import environ
+from psutil import Process
 from subprocess import PIPE, Popen, run
 from libqtile import qtile, hook
 from libqtile.log_utils import logger
-from asyncio import sleep
 
-from classes import AutoStart
+from classes import AutoStart, Helpers
 
 
 @hook.subscribe.startup_once
@@ -41,14 +41,6 @@ def auto_screens():
     logger.warning(f"{r} Found")
 
 
-@hook.subscribe.client_new
-def specific_instance_rules(client):
-    if client.name == "Spotify":
-        client.togroup("music")
-    elif client.name == "Discord":
-        client.togroup("chat")
-
-
 @hook.subscribe.screen_change
 def set_screens(event):
     if event:
@@ -56,9 +48,29 @@ def set_screens(event):
     qtile.restart()
 
 
-# TODO: Get pcloud to run in background on startup
-# TODO: Go to or spawn app/group
-# TODO: Have generic groups. When specific apps are opened
-#   inside a group, the label changes to an associated icon
-#   to indicate where that app is. When the app is closed
-#   the group label reverts back to the default icon
+@hook.subscribe.client_new
+def app_to_group_router(window):
+    pid = window.get_pid()
+    name = Process(pid).name()
+    if "spotify" in name:
+        window.togroup("music")
+    elif "discord" in name:
+        window.togroup("chat")
+    elif "pcloud" in name:
+        window.togroup("misc")
+
+# @hook.subscribe.client_new
+# def update_group_on_new(w):
+#     Helpers.update_group(window=w)
+
+
+# @hook.subscribe.client_killed
+# def update_group_on_kill(w):
+#     Helpers.update_group(window=w)
+
+    # TODO: Get pcloud to run in background on startup
+    # TODO: Go to or spawn app/group
+    # TODO: Have generic groups. When specific apps are opened
+    #   inside a group, the label changes to an associated icon
+    #   to indicate where that app is. When the app is closed
+    #   the group label reverts back to the default icon

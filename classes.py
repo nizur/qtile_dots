@@ -103,6 +103,10 @@ class Palette(object):
 
 
 class Helpers():
+    # def update_group(window):
+    #     @lazy.function
+    #     def f(qtile):
+
     def get_kernel_release():
         return check_output(["uname", "-r"]).decode("utf-8").replace("\n", "")
 
