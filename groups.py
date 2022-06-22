@@ -20,7 +20,7 @@ groups = [
     Group(
         exclusive=True,
         name="dev",
-        label="",
+        label="﬏",
         layout="bsp",
         matches=[Match(wm_instance_class=["code", "Code"])],
     ),

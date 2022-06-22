@@ -1,3 +1,4 @@
+from libqtile import qtile
 from libqtile.config import Key, KeyChord, ScratchPad
 from libqtile.lazy import lazy
 
@@ -126,6 +127,9 @@ keys = [
     Key([MOD], "q",
         lazy.window.kill(),
         desc="Kill focused window"),
+    Key([MOD, CTL], "n",
+        lazy.spawn("dunstctl set-paused toggle"),
+        desc="Toggle notifications"),
 
 
     ##############
@@ -202,11 +206,9 @@ keys = [
         desc="Move window right"),
     Key([MOD, SHIFT], "j",
         lazy.layout.shuffle_down(),
-        lazy.layout.section_down(),
         desc="Move window down"),
     Key([MOD, SHIFT], "k",
         lazy.layout.shuffle_up(),
-        lazy.layout.section_up(),
         desc="Move window up"),
 
     ### STACK: SPLIT ###
