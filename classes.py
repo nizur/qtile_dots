@@ -113,6 +113,7 @@ class Helpers():
     def get_os_release():
         return check_output(["lsb-release", "-rs"]).decode("utf-8").replace("\n", "")
 
+    # TODO: Rewrite this copy/pasta code
     def go_to_urgent(qtile):
         cg = qtile.currentGroup
         for group in qtile.groupMap.values():
