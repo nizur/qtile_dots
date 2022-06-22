@@ -79,17 +79,17 @@ keys = [
 
     # GNOME CONTROL #
 
-    # KeyChord([MOD, CTL], "g", [
-    #     Key([], "l",
-    #         lazy.spawn("gnome-screensaver-command -l"),
-    #         desc="Suspend"),
-    #     Key([], "q",
-    #         lazy.spawn("gnome-session-quit --logout --no-prompt"),
-    #         desc="Logout of Gnome"),
-    #     Key([SHIFT], "q",
-    #         lazy.spawn("gnome-session-quit --power-off"),
-    #         desc="Shutdown"),
-    # ], mode="Gnome"),
+    KeyChord([MOD, CTL], "g", [
+        Key([], "l",
+            lazy.spawn("gnome-screensaver-command -l"),
+            desc="Suspend"),
+        Key([], "q",
+            lazy.spawn("gnome-session-quit --logout --no-prompt"),
+            desc="Logout of Gnome"),
+        Key([SHIFT], "q",
+            lazy.spawn("gnome-session-quit --power-off"),
+            desc="Shutdown"),
+    ], mode="Gnome"),
 
 
     ###############
