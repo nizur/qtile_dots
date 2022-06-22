@@ -4,16 +4,16 @@ from libqtile.config import Match
 from classes import Palette
 
 base_layout_config = {
-    "border_focus": Palette.colors["blue"],
+    "border_focus": Palette.colors["green"],
     "border_normal": Palette.colors["crust"],
     "border_on_single": False,
-    "border_width": 2,
+    "border_width": 3,
     "margin": [0, 5, 5, 5],
     "single_border_width": 0,
 }
 
 cols_layout_config = {
-    "border_focus_stack": Palette.colors["blue"],
+    "border_focus_stack": Palette.colors["green"],
     "border_normal_stack": Palette.colors["crust"],
 }
 
