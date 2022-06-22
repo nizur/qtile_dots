@@ -136,10 +136,12 @@ keys = [
         Helpers.create_screenshot(clipboard=False),
         desc="Take a screenshot"),
     Key([ALT], "Print",
-        Helpers.create_screenshot(mode="window", clipboard=False),
+        Helpers.create_screenshot(
+            mode="window", clipboard=False),
         desc="Take a screenshot of a specific window"),
     Key([CTL], "Print",
-        Helpers.create_screenshot(mode="select", clipboard=False),
+        Helpers.create_screenshot(
+            mode="select", clipboard=False),
         desc="Take a screenshot of a selected area"),
 
 
