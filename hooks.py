@@ -51,12 +51,14 @@ def set_screens(event):
 @hook.subscribe.client_new
 def app_to_group_router(window):
     pid = window.get_pid()
-    name = Process(pid).name()
+    name = Process(pid).name().lower()
     if "spotify" in name:
         window.togroup("music")
     elif "discord" in name:
         window.togroup("chat")
     elif "pcloud" in name:
+        window.togroup("misc")
+    elif "rcu_gp" in name:  # Logseq registers as rcu_gp for some reason
         window.togroup("misc")
 
 # @hook.subscribe.client_new
