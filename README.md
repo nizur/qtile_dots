@@ -5,5 +5,5 @@ Nothing fancy, but I like it.
 
 You'll need to install a [Nerd Font](https://www.nerdfonts.com/) in order for the icons to work.
 
-![2022-06-17-1655527638_screenshot_2560x1080](https://user-images.githubusercontent.com/457202/174456374-302dc412-d24e-4642-ae4c-ef5d123a4740.jpg)
-![2022-06-17-1655527973_screenshot_2560x1080](https://user-images.githubusercontent.com/457202/174456381-7932a48d-8574-49b5-97c4-4eace7c437a3.jpg)
+![tumbleweed-pc_full_165586713676](https://user-images.githubusercontent.com/457202/174935184-b694989f-5cde-4908-b745-4e143360c11c.png)
+![tumbleweed-pc_full_165586731698](https://user-images.githubusercontent.com/457202/174935199-4bc5f374-f76f-4db9-884e-c5ee6da3ca11.png)
