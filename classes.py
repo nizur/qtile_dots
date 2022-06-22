@@ -168,7 +168,7 @@ class Helpers():
                 else:
                     logger.error(f"Strange thing happened! {r}")
 
-        return
+        return f
 
     def get_screen_size():
         try:
