@@ -1,61 +1,8 @@
 from libqtile.config import DropDown, Group, Match, ScratchPad
 
+groups = [Group(i, label="") for i in "123456789"]
 
-groups = [
-    Group(
-        exclusive=True,
-        name="web",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_instance_class=["firefox", "Firefox", "Navigator"])],
-    ),
-    Group(
-        exclusive=True,
-        name="tty",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_instance_class=["alacritty",
-                       "Alacritty", "kitty", "Kitty"])],
-    ),
-    Group(
-        exclusive=True,
-        name="dev",
-        label="﬏",
-        layout="bsp",
-        matches=[Match(wm_instance_class=["code", "Code"])],
-    ),
-    Group(
-        name="mail",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_instance_class="geary")],
-    ),
-    Group(
-        exclusive=True,
-        name="chat",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_instance_class=["Discord", "discord"])],
-    ),
-    Group(
-        exclusive=True,
-        name="music",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_instance_class=["Spotify", "spotify"])],
-    ),
-    Group(
-        exclusive=True,
-        name="media",
-        label="",
-        layout="bsp",
-        matches=[Match(wm_class=["Gimp-2.10"])],
-    ),
-    Group(
-        name="misc",
-        label="ﯢ",
-        layout="bsp",
-    ),
+groups.extend([
     ScratchPad("dropdown", [
         DropDown("term", "kitty",
                  height=0.85,
@@ -67,4 +14,4 @@ groups = [
                  y=0.05,
                  ),
     ]),
-]
+])
