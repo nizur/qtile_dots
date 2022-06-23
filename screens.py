@@ -74,7 +74,7 @@ for i in range(0, num_screen):
                     block_highlight_text_color=Palette.colors["green"],
                     borderwidth=0,
                     disable_drag=True,
-                    fontsize=16,
+                    fontsize=20,
                     inactive=Palette.colors["surface1"],
                     padding=2,
                     rounded=False,

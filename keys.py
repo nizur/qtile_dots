@@ -112,6 +112,9 @@ keys = [
     Key([MOD], "0",
         lazy.group["dropdown"].dropdown_toggle("term"),
         desc="Toggle the terminal scratchpad"),
+    Key([], "F12",
+        lazy.group["dropdown"].dropdown_toggle("help"),
+        desc="Display key bindings"),
 
 
     ########

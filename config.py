@@ -5,6 +5,7 @@
 
 # TODO: Look into EWW
 # TODO: Toggle screensaver
+# TODO: Add clipboard manager
 # TODO: Disable screensaver when viewing videos?
 
 from defines import *
