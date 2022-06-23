@@ -109,9 +109,12 @@ keys = [
     Key([MOD], "Return",
         lazy.spawn("kitty"),
         desc="Launch terminal"),
-    Key([], "F12",
+    Key([MOD], "0",
         lazy.group["dropdown"].dropdown_toggle("term"),
         desc="Toggle the terminal scratchpad"),
+    Key([], "F12",
+        lazy.group["dropdown"].dropdown_toggle("help"),
+        desc="Display key bindings"),
 
 
     ########
@@ -238,16 +241,17 @@ keys = [
 # SWITCH BETWEEN GROUPS #
 #########################
 
-for i, group in enumerate(groups, start=1):
+# for i, group in enumerate(groups, start=1):
+for i in groups:
     if not isinstance(i, ScratchPad):
-        group = group.name
+        group = i.name
         keys.extend([
             # SWITCH TO GROUP #
-            Key([MOD], str(i), lazy.group[group].toscreen(),
+            Key([MOD], group, lazy.group[group].toscreen(),
                 desc="Switch to group {}".format(group)),
 
             # SWITCH TO & MOVE FOCUSED WINDOW TO GROUP #
-            Key([MOD, SHIFT], str(i), lazy.window.togroup(group, switch_group=True),
+            Key([MOD, SHIFT], group, lazy.window.togroup(group, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(group)),
 
             # SWITCH TO & MOVE ALL CURRENT WINDOWS TO GROUP #
