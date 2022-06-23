@@ -34,14 +34,14 @@ groups = [
         exclusive=True,
         name="chat",
         label="",
-        layout="max",
+        layout="bsp",
         matches=[Match(wm_instance_class=["Discord", "discord"])],
     ),
     Group(
         exclusive=True,
         name="music",
         label="",
-        layout="max",
+        layout="bsp",
         matches=[Match(wm_instance_class=["Spotify", "spotify"])],
     ),
     Group(

@@ -70,7 +70,6 @@ def app_to_group_router(window):
 # def update_group_on_kill(w):
 #     Helpers.update_group(window=w)
 
-    # TODO: Get pcloud to run in background on startup
     # TODO: Go to or spawn app/group
     # TODO: Have generic groups. When specific apps are opened
     #   inside a group, the label changes to an associated icon

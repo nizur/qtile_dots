@@ -1,7 +1,8 @@
 from os.path import expanduser
 
-from libqtile import bar, qtile, widget
+from libqtile import bar, widget
 from libqtile.config import Screen
+from libqtile.lazy import lazy
 
 from widgets.owm import OpenWeatherMap
 from widgets.volume import MyPulseVolume
@@ -29,28 +30,29 @@ for i in range(0, num_screen):
             top=bar.Bar([
                 widget.Spacer(
                     background=Palette.colors["green"],
-                    length=8,
+                    length=2,
                 ),
-                widget.TextBox(
+                widget.Image(
                     background=Palette.colors["green"],
-                    fontsize="24",
-                    foreground=Palette.colors["crust"],
-                    padding=0,
-                    text=" ",  # OpenSUSE!
+                    filename=expanduser(
+                        "~/.local/share/opensuse/Button-monochrome.png"),
+                    margin=4,
                 ),
                 widget.CheckUpdates(
                     background=Palette.colors["green"],
                     colour_have_updates=Palette.colors["crust"],
                     custom_command="zypper lu",
                     custom_command_modify=lambda x: x - 4,
-                    display_format="{updates}",
-                    padding=4,
+                    display_format="{updates} ",
+                    mouse_callbacks={
+                        "Button1": lazy.spawn("kitty -e sudo zypper dup"),
+                    },
+                    padding=0,
                     update_interval=14400,
                 ),
                 widget.CurrentLayoutIcon(
                     # custom_icon_paths=[expanduser(
                     #    "~/.config/qtile/layout-icons/gruvbox-neutral_orange")],
-                    foreground=Palette.colors["green"],
                     padding=4,
                     scale=0.5,
                 ),
@@ -165,7 +167,7 @@ for i in range(0, num_screen):
                     length=4,
                 ),
             ],
-                background=Palette.colors["crust"],
+                background=Palette.colors["crust"] + "80",
                 border_color=Palette.colors["green"],
                 border_width=[3, 0, 0, 0],
                 foreground=Palette.colors["text"],

@@ -71,6 +71,8 @@ class AutoStart(object):
 # Catpuccin mocha
 class Palette(object):
     colors = {
+        "opensuse": "#73ba25",
+
         "rosewater": "#F5E0DC",
         "flamingo": "#F2CDCD",
         "pink": "#F5C2E7",

@@ -3,10 +3,9 @@
 # - Chris Ruzin
 ###
 
-# TODO: Integrate dunst?
-# TODO: Toggle screensaver
 # TODO: Look into EWW
-# TODO: Drag/drop files?
+# TODO: Toggle screensaver
+# TODO: Disable screensaver when viewing videos?
 
 from defines import *
 from groups import *
