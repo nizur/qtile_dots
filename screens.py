@@ -11,16 +11,23 @@ from classes import Helpers, Palette
 
 # TODO: Add CPU/Memory/HD to info section?
 
+dpi = Helpers.dpi
+
 widget_defaults = dict(
     background=Palette.colors["base"],
     font="iM WritingQuattroS Nerd Font",
-    fontsize=13,
+    fontsize=dpi(13),
     foreground=Palette.colors["text"],
-    padding=10,
+    padding=dpi(10),
 )
 extension_defaults = widget_defaults.copy()
 
 num_screen = int(Helpers.get_num_screen())
+
+sep = widget.Sep(
+    foreground=Palette.colors["green"],
+    size_percent=100,
+)
 
 screens = []
 
@@ -36,7 +43,7 @@ for i in range(0, num_screen):
                     background=Palette.colors["green"],
                     filename=expanduser(
                         "~/.local/share/opensuse/Button-monochrome.png"),
-                    margin=4,
+                    margin=dpi(4),
                 ),
                 widget.CheckUpdates(
                     background=Palette.colors["green"],
@@ -53,7 +60,7 @@ for i in range(0, num_screen):
                 widget.CurrentLayoutIcon(
                     # custom_icon_paths=[expanduser(
                     #    "~/.config/qtile/layout-icons/gruvbox-neutral_orange")],
-                    padding=4,
+                    padding=dpi(4),
                     scale=0.5,
                 ),
                 widget.Chord(
@@ -66,7 +73,7 @@ for i in range(0, num_screen):
                 ),
                 widget.WindowName(
                     for_current_screen=True,
-                    padding=10,
+                    padding=dpi(10),
                 ),
                 widget.Spacer(),
                 widget.GroupBox(
@@ -74,9 +81,10 @@ for i in range(0, num_screen):
                     block_highlight_text_color=Palette.colors["green"],
                     borderwidth=0,
                     disable_drag=True,
-                    fontsize=20,
+                    fontsize=dpi(20),
+                    hide_unused=True,
                     inactive=Palette.colors["surface1"],
-                    padding=2,
+                    padding=dpi(2),
                     rounded=False,
                     urgent_text=Palette.colors["red"],
                 ),
@@ -94,7 +102,7 @@ for i in range(0, num_screen):
                     foreground=Palette.colors["flamingo"],
                 ),
                 widget.WindowCount(
-                    padding=10,
+                    padding=dpi(10),
                     text_format=" {num}",
                 ),
                 MyPulseVolume(
@@ -146,16 +154,16 @@ for i in range(0, num_screen):
                             length=6,
                         ),
                     ],
-                    fontsize=18,
+                    fontsize=dpi(18),
                     text_closed="",
                     text_open="",
                 ),
                 widget.Spacer(
-                    length=4,
+                    length=6,
                 ),
                 widget.Wallpaper(
                     directory=expanduser("~/Pictures/Wallpapers"),
-                    fontsize=16,
+                    fontsize=dpi(16),
                     foreground=Palette.colors["text"],
                     label="",
                     random_selection=True,
@@ -164,13 +172,13 @@ for i in range(0, num_screen):
                     length=4,
                 ),
             ],
-                background=Palette.colors["crust"] + "80",
+                background=Palette.colors["base"],
                 border_color=Palette.colors["green"],
-                border_width=[3, 0, 0, 0],
+                border_width=[dpi(1), 0, 0, 0],
                 foreground=Palette.colors["text"],
-                margin=5,
-                size=32,
+                margin=dpi(5),
                 opacity=0.888888880,
+                size=dpi(28),
             ),
         )
     ])

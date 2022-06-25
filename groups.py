@@ -1,4 +1,4 @@
-#from libqtile import qtile
+from libqtile import qtile
 from libqtile.config import DropDown, Group, Match, ScratchPad
 
 group_icons = [
@@ -25,7 +25,7 @@ groups.extend([
                  x=0.05,
                  y=0.05,
                  ),
-        DropDown("help", "kitty --hold -e qtile cmd-obj -o cmd -f display_kb",
+        DropDown("help", "kitty --hold -e echo -e '" + qtile.cmd_display_kb() + "'",
                  height=0.85,
                  on_focus_lost_hide=False,
                  opacity=0.888888880,

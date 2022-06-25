@@ -1,14 +1,16 @@
 from libqtile import layout
 from libqtile.config import Match
 
-from classes import Palette
+from classes import Helpers, Palette
+
+dpi = Helpers.dpi
 
 base_layout_config = {
     "border_focus": Palette.colors["green"],
     "border_normal": Palette.colors["crust"],
     "border_on_single": False,
-    "border_width": 3,
-    "margin": [0, 5, 5, 5],
+    "border_width": dpi(1),
+    "margin": [0, dpi(5), dpi(5), dpi(5)],
     "single_border_width": 0,
 }
 

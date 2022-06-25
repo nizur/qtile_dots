@@ -1,10 +1,10 @@
 import platform
 
+from os import access, X_OK, makedirs, remove
+from os.path import expanduser, isdir
+from re import search
 from subprocess import check_output, run, Popen, PIPE
 from time import time
-
-from os import devnull, access, X_OK, makedirs, remove
-from os.path import expanduser, isdir
 
 from libqtile.command import lazy
 from libqtile.log_utils import logger
@@ -172,6 +172,18 @@ class Helpers():
                     logger.error(f"Strange thing happened! {r}")
 
         return f
+
+    def dpi(value):
+        Xresources = expanduser("~/.Xresources")
+        with open(Xresources) as X:
+            xrdb = X.readlines()
+
+        dpi = 96
+        for line in xrdb:
+            if search('dpi', line):
+                dpi = line.split(':')[1].strip()
+
+        return int(value * int(dpi) / 96)
 
     def get_screen_size():
         try:
