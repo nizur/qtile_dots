@@ -4,10 +4,11 @@ from libqtile.config import Match
 from classes import Helpers, Palette
 
 dpi = Helpers.dpi
+theme = "mocha"
 
 base_layout_config = {
-    "border_focus": Palette.colors["green"],
-    "border_normal": Palette.colors["crust"],
+    "border_focus": Palette.colors[theme]["green"],
+    "border_normal": Palette.colors[theme]["crust"],
     "border_on_single": False,
     "border_width": dpi(1),
     "margin": [0, dpi(5), dpi(5), dpi(5)],
@@ -15,8 +16,8 @@ base_layout_config = {
 }
 
 cols_layout_config = {
-    "border_focus_stack": Palette.colors["green"],
-    "border_normal_stack": Palette.colors["crust"],
+    "border_focus_stack": Palette.colors[theme]["green"],
+    "border_normal_stack": Palette.colors[theme]["crust"],
 }
 
 layouts = [

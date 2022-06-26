@@ -12,42 +12,41 @@ from classes import Helpers, Palette
 # TODO: Add CPU/Memory/HD to info section?
 
 dpi = Helpers.dpi
+theme = "mocha"
+
+layout_icon_paths = "" if theme == "mocha" else [
+    expanduser("~/.config/qtile/layout-icons/gruvbox-dark0")]
+opensuse_icon = "Button-monochrome" if theme == "mocha" else "Button-monochrome-white"
 
 widget_defaults = dict(
-    background=Palette.colors["base"],
+    background=Palette.colors[theme]["base"],
     font="iM WritingQuattroS Nerd Font",
     fontsize=dpi(13),
-    foreground=Palette.colors["text"],
+    foreground=Palette.colors[theme]["text"],
     padding=dpi(10),
 )
 extension_defaults = widget_defaults.copy()
 
-num_screen = int(Helpers.get_num_screen())
-
-sep = widget.Sep(
-    foreground=Palette.colors["green"],
-    size_percent=100,
-)
-
+num_screens = int(Helpers.get_num_screen())
 screens = []
 
-for i in range(0, num_screen):
+for i in range(0, num_screens):
     screens.extend([
         Screen(
             top=bar.Bar([
                 widget.Spacer(
-                    background=Palette.colors["green"],
+                    background=Palette.colors["opensuse"],
                     length=2,
                 ),
                 widget.Image(
-                    background=Palette.colors["green"],
+                    background=Palette.colors["opensuse"],
                     filename=expanduser(
-                        "~/.local/share/opensuse/Button-monochrome.png"),
+                        f"~/.local/share/opensuse/{opensuse_icon}.png"),
                     margin=dpi(4),
                 ),
                 widget.CheckUpdates(
-                    background=Palette.colors["green"],
-                    colour_have_updates=Palette.colors["crust"],
+                    background=Palette.colors["opensuse"],
+                    colour_have_updates=Palette.colors[theme]["base"],
                     custom_command="zypper lu",
                     custom_command_modify=lambda x: x - 4,
                     display_format="{updates} ",
@@ -58,16 +57,15 @@ for i in range(0, num_screen):
                     update_interval=14400,
                 ),
                 widget.CurrentLayoutIcon(
-                    # custom_icon_paths=[expanduser(
-                    #    "~/.config/qtile/layout-icons/gruvbox-neutral_orange")],
+                    custom_icon_paths=layout_icon_paths,
                     padding=dpi(4),
                     scale=0.5,
                 ),
                 widget.Chord(
                     chords_colors={
-                        "Audio": (Palette.colors["peach"], Palette.colors["crust"]),
-                        "Gnome": (Palette.colors["mauve"], Palette.colors["crust"]),
-                        "Grow": (Palette.colors["blue"], Palette.colors["crust"]),
+                        "Audio": (Palette.colors[theme]["peach"], Palette.colors[theme]["base"]),
+                        "Gnome": (Palette.colors[theme]["mauve"], Palette.colors[theme]["base"]),
+                        "Grow": (Palette.colors[theme]["blue"], Palette.colors[theme]["base"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
@@ -77,36 +75,36 @@ for i in range(0, num_screen):
                 ),
                 widget.Spacer(),
                 widget.GroupBox(
-                    active=Palette.colors["subtext1"],
-                    block_highlight_text_color=Palette.colors["green"],
+                    active=Palette.colors[theme]["overlay0"],
+                    block_highlight_text_color=Palette.colors[theme]["text"],
                     borderwidth=0,
                     disable_drag=True,
                     fontsize=dpi(20),
                     hide_unused=True,
-                    inactive=Palette.colors["surface1"],
+                    inactive=Palette.colors[theme]["base"],
                     padding=dpi(2),
                     rounded=False,
-                    urgent_text=Palette.colors["red"],
+                    urgent_text=Palette.colors[theme]["red"],
                 ),
                 widget.Spacer(),
                 widget.Prompt(
                     bell_style="visual",
-                    cursor_color=Palette.colors["red"],
+                    cursor_color=Palette.colors[theme]["red"],
                     ignore_dups_history=True,
                     prompt=" ",
-                    visual_bell_color=Palette.colors["red"],
+                    visual_bell_color=Palette.colors[theme]["red"],
                 ),
                 widget.Clipboard(
                     blacklist=["1password", "1Password"],
                     fmt=" {}",
-                    foreground=Palette.colors["flamingo"],
+                    foreground=Palette.colors[theme]["flamingo"],
                 ),
                 widget.WindowCount(
                     padding=dpi(10),
                     text_format=" {num}",
                 ),
                 MyPulseVolume(
-                    foreground=Palette.colors["sapphire"],
+                    foreground=Palette.colors[theme]["sapphire"],
                     get_volume_command="pamixer --get-volume-human",
                     limit_max_volume=True,
                     mute_command="pamixer -m",
@@ -117,18 +115,18 @@ for i in range(0, num_screen):
                 ),
                 OpenWeatherMap(
                     api_key="b8c0a2258d0134fb50533560dfb89a73",
-                    foreground=Palette.colors["green"],
+                    foreground=Palette.colors[theme]["green"],
                     format="{icon} {temp:.0f}{temp_units}",
                     latitude=30.2,
                     longitude=-97.7,
                     units="imperial",
                 ),
                 widget.Clock(
-                    foreground=Palette.colors["yellow"],
+                    foreground=Palette.colors[theme]["yellow"],
                     format=" %a %B %d",
                 ),
                 widget.Clock(
-                    foreground=Palette.colors["peach"],
+                    foreground=Palette.colors[theme]["peach"],
                     format=" %I:%M %p",
                 ),
                 widget.Spacer(
@@ -137,20 +135,20 @@ for i in range(0, num_screen):
                 widget.WidgetBox(
                     widgets=[
                         widget.TextBox(
-                            background=Palette.colors["surface0"],
-                            foreground=Palette.colors["green"],
+                            background=Palette.colors[theme]["crust"],
+                            foreground=Palette.colors[theme]["green"],
                             text=" " + Helpers.get_os_release(),
                         ),
                         widget.TextBox(
-                            background=Palette.colors["surface0"],
-                            foreground=Palette.colors["yellow"],
+                            background=Palette.colors[theme]["crust"],
+                            foreground=Palette.colors[theme]["yellow"],
                             text=" " + Helpers.get_kernel_release(),
                         ),
                         widget.Systray(
-                            background=Palette.colors["surface0"],
+                            background=Palette.colors[theme]["crust"],
                         ),
                         widget.Spacer(
-                            background=Palette.colors["surface0"],
+                            background=Palette.colors[theme]["crust"],
                             length=6,
                         ),
                     ],
@@ -164,7 +162,7 @@ for i in range(0, num_screen):
                 widget.Wallpaper(
                     directory=expanduser("~/Pictures/Wallpapers"),
                     fontsize=dpi(16),
-                    foreground=Palette.colors["text"],
+                    foreground=Palette.colors[theme]["text"],
                     label="",
                     random_selection=True,
                 ),
@@ -172,10 +170,11 @@ for i in range(0, num_screen):
                     length=4,
                 ),
             ],
-                background=Palette.colors["base"],
-                border_color=Palette.colors["green"],
+                background=[Palette.colors[theme]["surface0"],
+                            Palette.colors[theme]["base"]],
+                border_color=Palette.colors["opensuse"],
                 border_width=[dpi(1), 0, 0, 0],
-                foreground=Palette.colors["text"],
+                foreground=Palette.colors[theme]["text"],
                 margin=dpi(5),
                 opacity=0.888888880,
                 size=dpi(28),
